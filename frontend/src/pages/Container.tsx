@@ -3,7 +3,7 @@ import Contextpage from '../Contextpage'
 import Movies from "../components/Movies";
 import Searchbar from "../components/Searchbar";
 import { useParams } from 'react-router-dom'
-import Search from "../pages/Search"
+import Search from "./Search"
 
 
 function Container() {

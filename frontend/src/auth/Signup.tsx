@@ -37,10 +37,10 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center ">
       <div className="bg-white p-8 rounded shadow-lg w-96">
-        <h2 className="text-3xl font-bold mb-4 text-black">Login</h2>
+        <h2 className="text-3xl font-bold mb-4 text-gray-800">Login</h2>
         <form onSubmit={handleSubmit(handleLogin)}>
           <div className="mb-4">
-            <label className="block text-sm font-medium text-yellow-600">
+            <label className="block text-sm font-medium text-gray-600">
               Username
             </label>
             <div>
@@ -52,7 +52,7 @@ const Login = () => {
             </div>
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium text-yellow-600">
+            <label className="block text-sm font-medium text-gray-600">
               Password
             </label>
             <input
@@ -63,7 +63,7 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className="bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black text-yellow-500 p-2 rounded-md w-full"
+            className="bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black text-white p-2 rounded-md w-full"
           >
             Login
           </button>
