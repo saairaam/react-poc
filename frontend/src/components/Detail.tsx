@@ -54,9 +54,9 @@ const Detail = () => {
   }, []);
 
   return (
-    <div>
+    <div className="min-x-screen overflow-x-scroll">
       {loader ? (
-        <div className="h-screen w-full flex justify-center items-center">
+        <div className="h-screen w-full overflow-hidden flex justify-center items-center">
           <span className="loader m-10"></span>
         </div>
       ) : (
@@ -89,9 +89,7 @@ const Detail = () => {
           </div>
 
           {/* overview */}
-          <h2 className="text-white text-center pt-5 px-3 md:px-60 font-Roboto text-[18px]">
-            {moviedet?.overview}
-          </h2>
+          <h2 className="text-center p-5">{moviedet?.overview}</h2>
 
           <div className="text-blue-100 font-semibold my-3 flex justify-center">
             <h2 className="bg-blue-600/30 border-2 border-blue-700 py-2 px-3 rounded-full">
@@ -112,42 +110,7 @@ const Detail = () => {
               </>
             ))}
           </div>
-
-          {/* cast */}
-          <div className="flex flex-col items-center">
-            <h1 className="text-3xl text-blue-300 font-semibold text-center p-2">
-              Cast
-            </h1>
-
-            <div
-              className="md:px-5 flex flex-row my-5 min-w-screen flex-start overflow-x-auto relative
-              scrollbar-thin scrollbar-thumb-gray-500/20 scrollbar-track-gray-900/90 md:pb-3"
-            >
-              {castdata.map((cast: any) => (
-                <>
-                  {cast.profile_path !== null ? (
-                    <>
-                      <div className="flex min-w-[9rem] md:min-w-[10rem] max-w-[9rem] md:max-w-[10rem] h-full items-center text-center flex-col mx-1">
-                        <LazyLoadImage
-                          effect="blur"
-                          src={
-                            "https://image.tmdb.org/t/p/w500" +
-                            cast.profile_path
-                          }
-                          className="w-full h-full rounded-xl"
-                        />
-                        <p className="text-white">{cast.name}</p>
-                        <p className="text-blue-300">({cast.character})</p>
-                      </div>
-                    </>
-                  ) : null}
-                </>
-              ))}
-            </div>
-          </div>
-
-          {/* trailer */}
-          <div className="flex justify-center items-center mb-10 gap-5 flex-wrap">
+          <div className="flex justify-center items-center mt-3 gap-5 flex-wrap">
             {Array.from(video)
               .filter((trail: any) => trail.type === "Trailer")
               .map((trail: any, index) => (
@@ -172,15 +135,34 @@ const Detail = () => {
               ))}
           </div>
 
-          {/* watch movie */}
-          <div className="flex justify-center items-center mb-10 gap-5 flex-wrap">
-            <Link
-              to={`/player/${id}/${slugify(moviedet?.title)}`}
-              className="flex border-2 border-green-600 bg-green-600/40 p-3 items-center justify-center gap-2 text-xl font-semibold rounded-full text-white"
-            >
-              <FaPlay />
-              Watch Movie
-            </Link>
+          {/* cast */}
+          <div className="flex flex-col items-center min-w-screen overflow-x-scroll">
+            <h1 className="text-3xl text-blue-300 font-semibold text-center p-2">
+              Cast
+            </h1>
+
+            <div className="md:px-5 flex flex-row my-5 overflow-scroll relative scrollbar-thin scrollbar-thumb-gray-500/20 scrollbar-track-gray-900/90 md:pb-3">
+              {castdata.map((cast: any) => (
+                <>
+                  {cast.profile_path !== null ? (
+                    <>
+                      <div className="flex min-w-[9rem] md:min-w-[10rem] max-w-[9rem] md:max-w-[10rem] h-full items-center text-center flex-col mx-1">
+                        <LazyLoadImage
+                          effect="blur"
+                          src={
+                            "https://image.tmdb.org/t/p/w500" +
+                            cast.profile_path
+                          }
+                          className="w-full h-full rounded-xl"
+                        />
+                        <p className="text-white">{cast.name}</p>
+                        <p className="text-blue-300">({cast.character})</p>
+                      </div>
+                    </>
+                  ) : null}
+                </>
+              ))}
+            </div>
           </div>
         </div>
       )}

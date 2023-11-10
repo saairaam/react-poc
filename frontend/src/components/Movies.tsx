@@ -1,11 +1,7 @@
-import React, { useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import Contextpage from "../Contextpage";
 import Moviecard from "./Moviecard";
-import { motion, AnimatePresence } from "framer-motion";
-import Genre from "./Genre";
-import Header from "./Header";
 // import { Pagebtn } from './Pagebtn';
-import InfiniteScroll from "react-infinite-scroll-component";
 
 function Movies() {
   const {
@@ -17,6 +13,7 @@ function Movies() {
     setMovies,
     activegenre,
     filteredGenre,
+    fetchUpcoming,
   } = useContext(Contextpage);
 
   useEffect(() => {
@@ -24,7 +21,7 @@ function Movies() {
   }, []);
 
   useEffect(() => {
-    setMovies([]); // Reset movies on genre change so that movies of other genre will not appear at top.
+    setMovies(); // Reset movies on genre change so that movies of other genre will not appear at top.
     setPage(0);
     /* Set page to 0, it will automatically increment to 1 and will cause re render even if the page is already set to 1. The increment function is in context page.
         It is important to set page to 0, as on changing genre, if page is already set to 1 then the fetch function will not work as the page state variable is not changed, that's why we are setting page to 0 to force re-render. 
@@ -42,8 +39,6 @@ function Movies() {
 
   return (
     <div className="w-full  md:p-10 mb-20 md:mb-0">
-      <Genre />
-      <Header />
       <div className="flex flex-wrap relative justify-evenly md:justify-around">
         {loader ? (
           <span className="loader m-10"></span>

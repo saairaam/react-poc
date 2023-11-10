@@ -1,13 +1,15 @@
-export const Carousel = ({ data }: any) => {
+import Moviecard from "./Moviecard";
+
+const Carousel = ({ items }: any) => {
   return (
-    <div className="carousel rounded-box gap-x-2">
-      {data.map((item: any) => {
-        return (
-          <div className="carousel-item w-1/5">
-            <img src={item.poster_path} alt="Movie" />
-          </div>
-        );
-      })}
+    <div className="min-w-screen">
+      <div className="flex md:p-1 gap-x-3 overflow-x-scroll ">
+        {items.slice(0, 10).map((item: any, index: number) => (
+          <Moviecard item={item} index={index} />
+        ))}
+      </div>
     </div>
   );
 };
+
+export default Carousel;

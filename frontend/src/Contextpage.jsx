@@ -348,26 +348,11 @@ export function MovieProvider({ children }) {
   };
 
   const fetchTrending = async () => {
-    const data = await fetch(
-      `https://api.themoviedb.org/3/trending/movie/day?api_key=${APIKEY}&with_origin_country=IN&page=${page}`
-    );
-    const trend = await data.json();
-    setTrending(trending.concat(trend.results));
-    setTotalPage(trend.total_pages);
-    setLoader(false);
-    setHeader("Trending Movies");
+    setTrending(movieData);
   };
 
   const fetchUpcoming = async () => {
-    const data = await fetch(
-      `https://api.themoviedb.org/3/movie/upcoming?api_key=${APIKEY}&with_origin_country=IN&language=en-US&page=${page}`
-    );
-    const upc = await data.json();
-    console.log(upc);
-    setUpcoming(upcoming.concat(upc.results));
-    setTotalPage(upc.total_pages);
-    setLoader(false);
-    setHeader("Upcoming Movies");
+    setUpcoming(movieData);
   };
 
   // creat local storage

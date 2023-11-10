@@ -1,93 +1,62 @@
-import { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 const noimage = "../assets/images/no-image.jpg";
-import { motion } from "framer-motion";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { toast } from "react-toastify";
 import Contextpage from "../Contextpage";
-
-const Moviecard = ({ movie }: any) => {
+const MovieRating = (item: any) => {
+  return (item.vote_average || 0) > 7 ? (
+    <h3 className=" text-green-700 ">{(item.vote_average || 0).toFixed(1)}</h3>
+  ) : (item.vote_average || 0) > 5.5 ? (
+    <h3 className=" text-orange-400 ">{(item.vote_average || 0).toFixed(1)}</h3>
+  ) : (
+    <h3 className=" text-red-600">{(item.vote_average || 0).toFixed(1)}</h3>
+  );
+};
+const Moviecard = ({ item, index, upcoming }: any) => {
+  const navigate = useNavigate();
   const { user } = useContext(Contextpage);
 
-  const [isBookmarked, setIsBookmarked] = useState<Boolean>(false);
-
-  useEffect(() => {
-    if (localStorage.getItem(movie.id)) {
-      setIsBookmarked(true);
-    } else {
-      setIsBookmarked(false);
-    }
-  }, [movie.id]);
-
-  const BookmarkMovie = () => {
-    if (!user) {
-      toast.info("To bookmark this movie, please log in.");
-    } else {
-      setIsBookmarked(!isBookmarked);
-      if (isBookmarked) {
-        localStorage.removeItem(movie.id);
-      } else {
-        localStorage.setItem(movie.id, JSON.stringify(movie));
-      }
-    }
-  };
-
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 1 }}
-      layout
-      className="card relative w-full md:w-60 h-[410px] md:h-[360px] my-3 mx-4 md:my-5 md:mx-0 cursor-pointer rounded-xl overflow-hidden"
-    >
-      {/* bookmark buttons */}
-      <button
-        className="absolute bg-black text-white p-2 z-20 right-0 m-3 rounded-full text-xl"
-        onClick={BookmarkMovie}
+    <div>
+      <div
+        onClick={() => {
+          if (user) {
+            <div className="whitespace-nowrap text-sm">
+              {toast.info("To check out the movie sign in or sign up")}
+            </div>;
+          } else {
+            navigate(`/moviedetail/${item.id}`);
+          }
+        }}
+        key={index}
+        className="card relative w-full md:w-64 h-[410px] md:h-[240px] my-3 mx-4 md:my-5 md:mx-0 cursor-pointer rounded-xl overflow-hidden group  p-2 transition-all duration-300 transform hover:scale-105 hover:opacity-80"
       >
-        {" "}
-        {isBookmarked ? <AiFillStar /> : <AiOutlineStar />}
-      </button>
-
-      <div className="absolute bottom-0 w-full flex justify-between items-end p-3 z-20">
-        <h1 className="text-white text-xl font-semibold  break-normal break-words">
-          {movie.title || movie.name}
-        </h1>
-
-        {(movie.vote_average || 0) > 7 ? (
-          <h1 className="font-bold text-green-500 p-2 bg-zinc-900 rounded-full">
-            {(movie.vote_average || 0).toFixed(1)}
-          </h1>
-        ) : (movie.vote_average || 0) > 5.5 ? (
-          <h1 className="font-bold text-orange-400 p-2 bg-zinc-900 rounded-full">
-            {(movie.vote_average || 0).toFixed(1)}
-          </h1>
-        ) : (
-          <h1 className="font-bold text-red-600 p-2 bg-zinc-900 rounded-full">
-            {(movie.vote_average || 0).toFixed(1)}
-          </h1>
-        )}
+        <img
+          src={"https://image.tmdb.org/t/p/w500" + item.image}
+          alt={item.title}
+          className="w-full h-48 object-fit rounded-lg transition-opacity duration-300"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-50 group-hover:opacity-0 transition-opacity hover:text-opacity-100"></div>
+        <div className="opacity-0 group-hover:opacity-100 duration-300 absolute inset-x-0 bottom-0 flex justify-center items-end text-lg whitespace-nowrap bg-gray-200 text-black font-semibold">
+          {item.title}
+        </div>
+        <div className="absolute  flex justify-center inset-x-0 bottom-0 bg-gray-200 opacity-100 group-hover:opacity-0 font-bold ">
+          <div className="flex gap-x-2">
+            {upcoming ? (
+              <h3 className="text-black">Release date {item.releaseDate}</h3>
+            ) : (
+              <>
+                <h3 className="text-black">The People's rating</h3>
+                <MovieRating item={item} />
+              </>
+            )}
+          </div>
+        </div>
       </div>
 
-      <Link
-        to={`/moviedetail/${movie.id}`}
-        className="h-full w-full shadow absolute z-10"
-      ></Link>
-
-      <div>
-        {movie.img === null ? (
-          <img className="img object-cover" src={noimage} />
-        ) : (
-          <LazyLoadImage
-            effect="blur"
-            className="img object-cover"
-            src={"https://image.tmdb.org/t/p/w500" + movie.poster_path}
-          />
-        )}
-      </div>
-    </motion.div>
+      {/* <Moviecard movie={item} key={item.id} /> */}
+    </div>
   );
 };
 

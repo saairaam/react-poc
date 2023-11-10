@@ -24,28 +24,18 @@ const Player = () => {
     setHeader("Player");
   }, []);
 
-  document.title = `BlueBird Movies | ${moviedet.title}`;
+  document.title = `${moviedet.title}`;
 
   return (
-    <>
-      <button
-        onClick={() => history.back()}
-        className="fixed z-10 text-4xl text-black bg-white m-3 md:m-5 rounded-full"
-      >
-        <HiChevronLeft />
-      </button>
+    <div className="flex flex-col justify-center bg-blur gap-y-10 w-full min-h-screen">
+      <div className="flex justify-center text-4xl text-yellow-500">
+        {moviedet.title}
+      </div>
       <iframe
-        allowFullScreen
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
-          height: "100vh",
-        }}
-        src={getSmashystreamUrl(id)}
+        className="h-[80vh]"
+        src="https://www.youtube.com/embed/tgbNymZ7vqY"
       ></iframe>
-    </>
+    </div>
   );
 };
 

@@ -19,7 +19,7 @@ const loginSchema = yup.object({
   rememberMe: yup.boolean().default(true).required(),
 });
 type LoginFormData = yup.InferType<typeof loginSchema>;
-const Login = () => {
+const SignUp = () => {
   const { register, getValues, handleSubmit } = useForm<LoginFormData>({
     resolver: yupResolver(loginSchema),
     defaultValues: {
@@ -73,4 +73,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
