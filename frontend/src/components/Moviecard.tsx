@@ -1,9 +1,7 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-const noimage = "../assets/images/no-image.jpg";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { toast } from "react-toastify";
-import Contextpage from "../Contextpage";
+import useReduxAuthState from "../use-redux-auth-state";
 const MovieRating = (item: any) => {
   return (item.vote_average || 0) > 7 ? (
     <h3 className=" text-green-700 ">{(item.vote_average || 0).toFixed(1)}</h3>
@@ -15,13 +13,13 @@ const MovieRating = (item: any) => {
 };
 const Moviecard = ({ item, index, upcoming }: any) => {
   const navigate = useNavigate();
-  const { user } = useContext(Contextpage);
+  const auth = useReduxAuthState();
 
   return (
-    <div>
+    <div className="">
       <div
         onClick={() => {
-          if (user) {
+          if (!auth.user) {
             <div className="whitespace-nowrap text-sm">
               {toast.info("To check out the movie sign in or sign up")}
             </div>;
@@ -29,22 +27,23 @@ const Moviecard = ({ item, index, upcoming }: any) => {
             navigate(`/moviedetail/${item.id}`);
           }
         }}
-        key={index}
-        className="card relative w-full md:w-64 h-[410px] md:h-[240px] my-3 mx-4 md:my-5 md:mx-0 cursor-pointer rounded-xl overflow-hidden group  p-2 transition-all duration-300 transform hover:scale-105 hover:opacity-80"
+        className="card relative w-full h-full md:w-64 lg:w-64 lg:h-[240px] md:h-[240px] my-3 md:mx-4 md:my-5  cursor-pointer rounded-xl overflow-hidden group p-1  lg:p-2 md:p-2 md:transition-all md:duration-300 md:transform md:hover:scale-105 md:hover:opacity-80 lg:transition-all lg:duration-300 lg:transform lg:hover:scale-105 lg:hover:opacity-80"
       >
         <img
           src={"https://image.tmdb.org/t/p/w500" + item.image}
           alt={item.title}
-          className="w-full h-48 object-fit rounded-lg transition-opacity duration-300"
+          className="w-full md:h-64 object-fit rounded-lg transition-opacity duration-300"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-50 group-hover:opacity-0 transition-opacity hover:text-opacity-100"></div>
-        <div className="opacity-0 group-hover:opacity-100 duration-300 absolute inset-x-0 bottom-0 flex justify-center items-end text-lg whitespace-nowrap bg-gray-200 text-black font-semibold">
+        <div className=" absolute md:inset-0 md:bg-gradient-to-b from-transparent to-black md:opacity-50 md:group-hover:opacity-0 md:transition-opacity md:hover:text-opacity-100"></div>
+        <div className=" opacity-100 md:opacity-0 md:group-hover:opacity-100 md:duration-300 absolute inset-x-0 bottom-0 flex justify-center items-end text-lg whitespace-nowrap bg-gray-200 text-black font-semibold">
           {item.title}
         </div>
-        <div className="absolute  flex justify-center inset-x-0 bottom-0 bg-gray-200 opacity-100 group-hover:opacity-0 font-bold ">
-          <div className="flex gap-x-2">
+        <div className="absolute  opacity-0 flex justify-center inset-x-0 bottom-0 bg-gray-200 md:opacity-100 md:group-hover:opacity-0 font-bold ">
+          <div className="flex gap-x-2 ">
             {upcoming ? (
-              <h3 className="text-black">Release date {item.releaseDate}</h3>
+              <h3 className="text-black opacity-0 md:opacity-100 md">
+                Release date {item.releaseDate}
+              </h3>
             ) : (
               <>
                 <h3 className="text-black">The People's rating</h3>

@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import Contextpage from "../Contextpage";
+import useReduxAuthState from "../use-redux-auth-state";
 
 function Navbar() {
-  const { user } = useContext(Contextpage);
-  // const user = { img: "" };
+  const auth = useReduxAuthState();
   const noimage = "../assets/images/blankProfile.png";
-  const image = user ? "./src/assets/images/User.jpg" : noimage;
+  const image = auth.user ? "./src/assets/images/User.jpg" : noimage;
   return (
     <div className="navbar  w-full">
       <div className="flex-1">
@@ -14,14 +14,8 @@ function Navbar() {
         </a>
       </div>
       <div className="flex-none gap-2">
-        {user ? (
-          <div className="form-control">
-            <input
-              type="text"
-              placeholder="Search"
-              className="input input-bordered w-24 md:w-auto"
-            />
-          </div>
+        {auth.user ? (
+          <div className="form-control">Hi {auth.user.username}</div>
         ) : (
           <>
             <div className="flex-1">
@@ -36,7 +30,7 @@ function Navbar() {
             </div>
           </>
         )}
-        {user ? (
+        {auth.user ? (
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
@@ -55,7 +49,7 @@ function Navbar() {
                 <a>Settings</a>
               </li>
               <li>
-                <a>Logout</a>
+                <a href="/logout">Logout</a>
               </li>
             </ul>
           </div>

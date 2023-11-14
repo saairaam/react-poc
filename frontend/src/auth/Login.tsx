@@ -1,37 +1,51 @@
-import React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
+import useAppDispatch from "../use-app-dispatch";
+import { signedIn } from "./slice/auth.slice";
+import { ROLE } from "../Types";
+import { InputError } from "../components/InputError";
 const loginSchema = yup.object({
-  email: yup
+  username: yup
     .string()
-    .trim()
-    .lowercase()
-    .email("validEmail")
-    .required("emailRequired")
-    .label("Email"),
+    .required("username is required")
+    .min(8, "minimum 8 characters are needed")
+    .label("username"),
   password: yup
     .string()
-    .min(8, "passwordMin")
-    .required("passwordRequired")
+    .required("password is required")
+    .min(8, "minimum 8 characters are needed")
     .label("Password"),
-  rememberMe: yup.boolean().default(true).required(),
+  rememberMe: yup.boolean(),
 });
 type LoginFormData = yup.InferType<typeof loginSchema>;
 const Login = () => {
-  const { register, getValues, handleSubmit } = useForm<LoginFormData>({
+  const {
+    register,
+    getValues,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
     resolver: yupResolver(loginSchema),
     defaultValues: {
-      email: "",
+      username: "",
       password: "",
-      rememberMe: true,
+      rememberMe: false,
     },
   });
+
+  const appDispatch = useAppDispatch();
   const navigate = useNavigate();
-  const handleLogin = (data: any) => {
+  const handleLogin = async (data: any) => {
     console.log("Logging in with:", data);
-    navigate("/home");
+    const payload = {
+      username: data.username,
+      role: data.username === "Saai" ? ROLE["ADMIN"] : ROLE["USER"],
+      rememberMe: data.rememberMe,
+    };
+    appDispatch(signedIn(payload));
+    payload.role === "USER" ? navigate("/") : navigate("/adminhome");
   };
 
   return (
@@ -47,8 +61,11 @@ const Login = () => {
               <input
                 type="text"
                 className="mt-1 p-2 w-full text-sm font-sans font-normal leading-5 px-3 py-2 rounded-lg shadow-md  shadow-slate-100 focus:shadow-outline-purple focus:shadow-lg border border-solid border-slate-300 hover:border-purple-500  focus:border-purple-500  bg-white text-slate-900  focus-visible:outline-0"
-                {...register("email")}
+                {...register("username")}
               />
+              {errors.username && (
+                <InputError error={errors.username.message} />
+              )}
             </div>
           </div>
           <div className="mb-4">
@@ -60,6 +77,17 @@ const Login = () => {
               className="mt-1 p-2 w-full text-sm font-sans font-normal leading-5 px-3 py-2 rounded-lg shadow-md  shadow-slate-100 focus:shadow-outline-purple focus:shadow-lg border border-solid border-slate-300 hover:border-purple-500  focus:border-purple-500  bg-white text-slate-900  focus-visible:outline-0"
               {...register("password")}
             />
+            {errors.password && <InputError error={errors.password.message} />}
+          </div>
+          <div className=" flex gap-x-2 mb-4">
+            <input
+              type="checkbox"
+              // className="mt-1 p-2 w-full text-sm font-sans font-normal leading-5 px-3 py-2 rounded-lg shadow-md  shadow-slate-100 focus:shadow-outline-purple focus:shadow-lg border border-solid border-slate-300 hover:border-purple-500  focus:border-purple-500  bg-white text-slate-900  focus-visible:outline-0"
+              {...register("rememberMe")}
+            />
+            <label className="block text-sm font-medium text-yellow-600">
+              Remember Me
+            </label>
           </div>
           <button
             type="submit"

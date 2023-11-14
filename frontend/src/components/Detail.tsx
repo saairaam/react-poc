@@ -1,12 +1,10 @@
-import React, { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import Contextpage from "../Contextpage";
 import { HiChevronLeft } from "react-icons/hi";
 const noimage = "../assets/images/no-image.jpg";
 import { FaPlay } from "react-icons/fa";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import slugify from "react-slugify";
 
 const Detail = () => {
   const APIKEY = "81641874fb2655f9a557bc338d178253";
@@ -22,7 +20,6 @@ const Detail = () => {
       `https://api.themoviedb.org/3/movie/${id}?api_key=${APIKEY}&language=en-US`
     );
     const moviedetail = await data.json();
-    console.log(data);
     setMoviedet(moviedetail);
     console.log(moviedetail);
     setMoviegenres(moviedetail.genres);
@@ -123,7 +120,7 @@ const Detail = () => {
                       className="flex border-2 border-red-600 bg-red-600/40 p-3 items-center justify-center gap-2 text-xl font-semibold rounded-full text-white"
                     >
                       <FaPlay />
-                      Watch trailer{" "}
+                      Watch trailer{"  "}
                       {Array.from(video).filter(
                         (trail: any) => trail.type === "Trailer"
                       ).length > 1

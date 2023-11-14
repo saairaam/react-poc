@@ -21,7 +21,7 @@ export function MovieProvider({ children }) {
   const [genres, setGenres] = useState([]);
   const [loader, setLoader] = useState(true);
   const [backgenre, setBackGenre] = useState(false);
-  const [user, setUser] = useAuthState(auth);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   const APIKEY = "81641874fb2655f9a557bc338d178253";
@@ -405,6 +405,7 @@ export function MovieProvider({ children }) {
         searchedMovies,
         GoogleLogin,
         user,
+        setUser,
       }}
     >
       {children}
