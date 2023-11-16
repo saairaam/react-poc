@@ -2,32 +2,22 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
+import useAppDispatch from "../use-app-dispatch";
+import { signedIn } from "./slice/auth.slice";
+import { ROLE } from "../Types";
 import { InputError } from "../components/InputError";
 const loginSchema = yup.object({
   username: yup
     .string()
     .required("username is required")
-    .min(4, "minimum 4 characters are needed")
+    .min(8, "minimum 8 characters are needed")
     .label("username"),
-  email: yup
-    .string()
-    .email("valid email is required ")
-    .required("Email is required")
-    .label("email"),
   password: yup
     .string()
-    .min(8, "minimum 8 characters are needed")
     .required("password is required")
+    .min(8, "minimum 8 characters are needed")
     .label("Password"),
-  confirmPassword: yup
-    .string()
-    .min(8, "minimum 8 characters are needed")
-    .oneOf(
-      [yup.ref("password")],
-      "password and confirm password is not the same"
-    )
-    .required("password is required")
-    .label("confirmPassword"),
+  rememberMe: yup.boolean(),
 });
 type LoginFormData = yup.InferType<typeof loginSchema>;
 const Login = () => {
@@ -40,37 +30,32 @@ const Login = () => {
     resolver: yupResolver(loginSchema),
     defaultValues: {
       username: "",
-      email: "",
-      confirmPassword: "",
       password: "",
+      rememberMe: false,
     },
   });
 
-  // const appDispatch = useAppDispatch();
+  const appDispatch = useAppDispatch();
   const navigate = useNavigate();
   const handleLogin = async (data: any) => {
     console.log("Logging in with:", data);
-    const { username, email, password, confirmPassword } = data;
     const payload = {
-      username,
-      email,
-      password,
+      username: data.username,
+      role: data.username === "Saai" ? ROLE["ADMIN"] : ROLE["USER"],
+      rememberMe: data.rememberMe,
     };
-    console.log(payload);
-
-    // appDispatch(signedIn(payload));
-
-    // payload.role === "USER" ? navigate("/") : navigate("/adminhome");
+    appDispatch(signedIn(payload));
+    payload.role === "USER" ? navigate("/") : navigate("/adminhome");
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center ">
       <div className="bg-white p-8 rounded shadow-lg w-96">
-        <h2 className="text-3xl font-bold mb-4 text-black">Sign Up</h2>
+        <h2 className="text-3xl font-bold mb-4 text-black">Login</h2>
         <form onSubmit={handleSubmit(handleLogin)}>
           <div className="mb-4">
             <label className="block text-sm font-medium text-yellow-600">
-              Name
+              Username
             </label>
             <div>
               <input
@@ -85,19 +70,6 @@ const Login = () => {
           </div>
           <div className="mb-4">
             <label className="block text-sm font-medium text-yellow-600">
-              Email
-            </label>
-            <div>
-              <input
-                type="text"
-                className="mt-1 p-2 w-full text-sm font-sans font-normal leading-5 px-3 py-2 rounded-lg shadow-md  shadow-slate-100 focus:shadow-outline-purple focus:shadow-lg border border-solid border-slate-300 hover:border-purple-500  focus:border-purple-500  bg-white text-slate-900  focus-visible:outline-0"
-                {...register("email")}
-              />
-              {errors.email && <InputError error={errors.email.message} />}
-            </div>
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-yellow-600">
               Password
             </label>
             <input
@@ -107,25 +79,21 @@ const Login = () => {
             />
             {errors.password && <InputError error={errors.password.message} />}
           </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-yellow-600">
-              Confirm Password
-            </label>
+          <div className=" flex gap-x-2 mb-4">
             <input
-              type="password"
-              className="mt-1 p-2 w-full text-sm font-sans font-normal leading-5 px-3 py-2 rounded-lg shadow-md  shadow-slate-100 focus:shadow-outline-purple focus:shadow-lg border border-solid border-slate-300 hover:border-purple-500  focus:border-purple-500  bg-white text-slate-900  focus-visible:outline-0"
-              {...register("confirmPassword")}
+              type="checkbox"
+              // className="mt-1 p-2 w-full text-sm font-sans font-normal leading-5 px-3 py-2 rounded-lg shadow-md  shadow-slate-100 focus:shadow-outline-purple focus:shadow-lg border border-solid border-slate-300 hover:border-purple-500  focus:border-purple-500  bg-white text-slate-900  focus-visible:outline-0"
+              {...register("rememberMe")}
             />
-            {errors.confirmPassword && (
-              <InputError error={errors.confirmPassword.message} />
-            )}
+            <label className="block text-sm font-medium text-yellow-600">
+              Remember Me
+            </label>
           </div>
-
           <button
             type="submit"
             className="bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black text-yellow-500 p-2 rounded-md w-full"
           >
-            Sign Up
+            Login
           </button>
         </form>
       </div>
