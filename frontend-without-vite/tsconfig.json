@@ -27,7 +27,8 @@
     "noFallthroughCasesInSwitch": true // Report errors for fallthrough cases in switch statement
   },
   "include": [
-    "src/**/*" 
+    "src/**/*" ,
+     "src/declaration.d.ts",
   ],
   "exclude": ["node_modules", "build"] 
 }

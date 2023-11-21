@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { HiChevronLeft } from "react-icons/hi";
-const noimage = "../assets/images/no-image.jpg";
 import { FaPlay } from "react-icons/fa";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+
+const noimage = "../assets/images/no-image.jpg";
 
 const Detail = () => {
   const APIKEY = "81641874fb2655f9a557bc338d178253";
@@ -71,13 +72,14 @@ const Detail = () => {
               {moviedet?.title}
             </h1>
             {moviedet?.backdrop_path === null ? (
-              <img src={noimage} className="h-full" />
+              <img src={noimage} className="h-full" alt="ss" />
             ) : (
               <img
                 src={
                   "https://image.tmdb.org/t/p/original/" +
                   moviedet?.backdrop_path
                 }
+                alt=""
                 className="h-full
                 "
               />
@@ -117,6 +119,7 @@ const Detail = () => {
                       href={"https://www.youtube.com/watch?v=" + trail.key}
                       target="_blank"
                       className="flex border-2 border-red-600 bg-red-600/40 p-3 items-center justify-center gap-2 text-xl font-semibold rounded-full text-white"
+                      rel="noreferrer"
                     >
                       <FaPlay />
                       Watch trailer{"  "}

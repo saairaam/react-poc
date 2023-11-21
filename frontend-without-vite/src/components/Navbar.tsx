@@ -1,13 +1,17 @@
-import useReduxAuthState from "../use-redux-auth-state";
+import useReduxAuthState from '../use-redux-auth-state';
 
 function Navbar() {
   const auth = useReduxAuthState();
-  const noimage = "../assets/images/blankProfile.png";
-  const image = auth.user ? auth.user.picture : noimage;
+  const noimage = '../assets/images/blankProfile.png';
+  const image = auth.user
+    ? auth.user.picture
+      ? auth.user.picture
+      : `https://saairaam-react-poc.s3.amazonaws.com/users/${auth.user?.username}.png`
+    : noimage;
   return (
     <div className="navbar  w-full">
       <div className="flex-1">
-        <a className="btn btn-ghost normal-case text-xl" href="/">
+        <a className="btn btn-ghost text-xl normal-case" href="/">
           Home
         </a>
       </div>
@@ -17,12 +21,12 @@ function Navbar() {
         ) : (
           <>
             <div className="flex-1">
-              <a className="btn btn-ghost normal-case text-xl" href="/login">
+              <a className="btn btn-ghost text-xl normal-case" href="/login">
                 Login
               </a>
             </div>
             <div className="flex-1">
-              <a className="btn btn-ghost normal-case text-xl" href="/signup">
+              <a className="btn btn-ghost text-xl normal-case" href="/signup">
                 SignUp
               </a>
             </div>
@@ -32,13 +36,13 @@ function Navbar() {
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
-                <img src={image} />
+                <img src={image} alt={auth.user.username} />
               </div>
             </label>
 
             <ul
               tabIndex={0}
-              className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
               <li>
                 <a className="justify-between" href="/profile">
@@ -51,7 +55,7 @@ function Navbar() {
             </ul>
           </div>
         ) : (
-          ""
+          ''
         )}
       </div>
     </div>

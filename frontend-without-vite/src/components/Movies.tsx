@@ -1,20 +1,12 @@
-import { useEffect, useContext } from "react";
-import Contextpage from "../Contextpage";
-import Moviecard from "./Moviecard";
+import { useEffect, useContext } from 'react';
+import Contextpage from '../Contextpage';
+import Moviecard from './Moviecard';
+
 // import { Pagebtn } from './Pagebtn';
 
 function Movies() {
-  const {
-    movies,
-    loader,
-    page,
-    setPage,
-    totalPage,
-    setMovies,
-    activegenre,
-    filteredGenre,
-    fetchUpcoming,
-  } = useContext(Contextpage);
+  const { movies, loader, page, setPage, setMovies, activegenre, filteredGenre } =
+    useContext(Contextpage);
 
   useEffect(() => {
     setPage(1); // Reset Page to 1 on initial render.

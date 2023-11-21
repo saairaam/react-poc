@@ -1,27 +1,16 @@
-import { movieData } from "../assets/Data";
-import { Section } from "../components/Section";
+import { movieData } from '../assets/Data';
+import ListMovies from '../components/ListMovies';
+import useReduxAuthState from '../use-redux-auth-state';
 export const AdminHome = () => {
+  const auth = useReduxAuthState();
+  const { user } = auth;
   return (
-    <div className="flex flex-col justify-center w-full">
-      <section className="text-white flex justify-center py-48">
-        <p className="text-[3rem] text-yellow-700 font-cinzel">Welcome Admin</p>
-      </section>
+    <div className="flex w-[80%]  flex-col gap-10">
+      <div className="font-cinzel flex justify-center text-4xl text-yellow-700">
+        Welcome {user?.username}
+      </div>
       <div>
-        <Section
-          link={"/upcoming"}
-          heading={"Upcoming Movies"}
-          movieData={movieData}
-        />
-        <Section
-          link={"/trending"}
-          heading={"Trending Movies"}
-          movieData={movieData}
-        />
-        <Section
-          link={"/mostAcclaimed"}
-          heading={"Most Acclaimed Movies"}
-          movieData={movieData}
-        />
+        <ListMovies movies={movieData} />
       </div>
     </div>
   );

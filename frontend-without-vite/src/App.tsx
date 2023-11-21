@@ -1,18 +1,19 @@
-import { Route, Routes } from "react-router-dom";
-import Login from "./auth/Login";
-import Navbar from "./components/Navbar";
-import { MovieProvider } from "./Contextpage";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { Home } from "./pages/Home";
-import Detail from "./components/Detail";
-import Player from "./pages/Player";
-import SignUp from "./auth/Signup";
-import Upcoming from "./pages/Upcoming";
-import Trending from "./pages/Trending";
-import { AdminHome } from "./pages/AdminHome";
-import { Logout } from "./auth/Logout";
-import Profile from "./pages/Profile";
+import { Route, Routes } from 'react-router-dom';
+import Login from './auth/Login';
+import Navbar from './components/Navbar';
+import { MovieProvider } from './Contextpage';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Home } from './pages/Home';
+import Detail from './components/Detail';
+import SignUp from './auth/Signup';
+import Upcoming from './pages/Upcoming';
+import Trending from './pages/Trending';
+import { Logout } from './auth/Logout';
+import Profile from './pages/Profile';
+import { AdminHome } from './pages/AdminHome';
+import AdminProtectedRoute from './components/AdminProtectedRoute';
+import PageNotFound from './pages/PageNotFound';
 
 function App() {
   return (
@@ -32,18 +33,21 @@ function App() {
 
       <div className="bg-gray-800">
         <Navbar />
-        <div className="min-h-screen flex justify-center align-baseline bg-[#212B37]">
+        <div className="flex min-h-screen justify-center bg-[#212B37] align-baseline">
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/moviedetail/:id" element={<Detail />} />
-            <Route path="/player/:id/:moviename" element={<Player />} />
             <Route path="/" element={<Home />} />
-            <Route path="/adminhome" element={<AdminHome />} />
             <Route path="/upcoming" element={<Upcoming />} />
             <Route path="/trending" element={<Trending />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/landing" element={<PageNotFound />} />
+            <Route element={<AdminProtectedRoute />}>
+              <Route path="/adminhome" element={<AdminHome />} />
+              {/* <Route path="/edit/:movieId" element={< />} /> */}
+            </Route>
           </Routes>
         </div>
       </div>

@@ -1,7 +1,6 @@
 /** @type {import('tailwindcss').Config} */
-
 module.exports = {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
       backgroundImage: {
@@ -10,10 +9,10 @@ module.exports = {
       },
     },
     fontFamily: {
-      cinzel: ["Cinzel", "sans-serif"],
-      poppins: ["Poppins", "sans-serif "],
-      Roboto: ["Roboto", "sans-serif"],
+      cinzel: ['Cinzel', 'sans-serif'],
+      poppins: ['Poppins', 'sans-serif '],
+      Roboto: ['Roboto', 'sans-serif'],
     },
   },
-  plugins: [require("tailwind-scrollbar"), require("daisyui")],
+  plugins: [require('tailwind-scrollbar'), require('daisyui')],
 };

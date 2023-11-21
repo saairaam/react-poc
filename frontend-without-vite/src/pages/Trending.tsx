@@ -1,6 +1,6 @@
-import { useEffect, useContext } from "react";
-import Contextpage from "../Contextpage";
-import Moviecard from "../components/Moviecard";
+import { useEffect, useContext } from 'react';
+import Contextpage from '../Contextpage';
+import Moviecard from '../components/Moviecard';
 // import { Pagebtn } from '../components/Pagebtn';
 
 function Trending() {
@@ -12,14 +12,12 @@ function Trending() {
 
   return (
     <div>
-      <div className="flex justify-center text-yellow-700 font-cinzel text-4xl">
-        Trending
-      </div>
-      <div className="w-full  md:p-10 mb-20 md:mb-0">
-        <div className="flex flex-wrap relative justify-evenly md:justify-around">
+      <div className="font-cinzel flex justify-center text-4xl text-yellow-700">Trending</div>
+      <div className="mb-20  w-full md:mb-0 md:p-10">
+        <div className="relative flex flex-wrap justify-evenly md:justify-around">
           <>
             {trending.map((tred: any) => (
-              <Moviecard index={tred.id} item={tred} />
+              <Moviecard key={tred.id} item={tred} />
             ))}
           </>
         </div>

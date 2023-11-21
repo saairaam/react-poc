@@ -1,20 +1,19 @@
-import { useNavigate } from "react-router-dom";
-import "react-lazy-load-image-component/src/effects/blur.css";
-import { toast } from "react-toastify";
-import useReduxAuthState from "../use-redux-auth-state";
-import { useState } from "react";
-import ReactPlayer from "react-player";
+import { useNavigate } from 'react-router-dom';
+import 'react-lazy-load-image-component/src/effects/blur.css';
+import { toast } from 'react-toastify';
+import useReduxAuthState from '../use-redux-auth-state';
+import { useState } from 'react';
 
-const MovieRating = (item: any) => {
-  return (item.vote_average || 0) > 7 ? (
-    <h3 className=" text-green-700 ">{(item.vote_average || 0).toFixed(1)}</h3>
-  ) : (item.vote_average || 0) > 5.5 ? (
-    <h3 className=" text-orange-400 ">{(item.vote_average || 0).toFixed(1)}</h3>
-  ) : (
-    <h3 className=" text-red-600">{(item.vote_average || 0).toFixed(1)}</h3>
-  );
-};
-const Moviecard = ({ item, index, upcoming }: any) => {
+// const _MovieRating = (item: any) => {
+//   return (item.vote_average || 0) > 7 ? (
+//     <h3 className=" text-green-700 ">{(item.vote_average || 0).toFixed(1)}</h3>
+//   ) : (item.vote_average || 0) > 5.5 ? (
+//     <h3 className=" text-orange-400 ">{(item.vote_average || 0).toFixed(1)}</h3>
+//   ) : (
+//     <h3 className=" text-red-600">{(item.vote_average || 0).toFixed(1)}</h3>
+//   );
+// };
+const Moviecard = ({ item, upcoming }: any) => {
   const navigate = useNavigate();
   const auth = useReduxAuthState();
   const [isHovered, setIsHovering] = useState(false);
@@ -33,7 +32,7 @@ const Moviecard = ({ item, index, upcoming }: any) => {
         onClick={() => {
           if (!auth.user) {
             <div className="whitespace-nowrap text-sm">
-              {toast.info("To check out the movie sign in or sign up")}
+              {toast.info('To check out the movie sign in or sign up')}
             </div>;
           } else {
             navigate(`/moviedetail/${item.id}`);
@@ -44,7 +43,7 @@ const Moviecard = ({ item, index, upcoming }: any) => {
         {!isHovered && (
           <>
             <img
-              src={"https://image.tmdb.org/t/p/w500" + item.image}
+              src={'https://image.tmdb.org/t/p/w500' + item.image}
               alt={item.title}
               className="w-full md:w-64 lg:w-64 md:h-64 object-fit rounded-lg transition-opacity duration-300"
             />
@@ -65,6 +64,7 @@ const Moviecard = ({ item, index, upcoming }: any) => {
               <iframe
                 width="560"
                 height="315"
+                title="sss"
                 src={`https://www.youtube.com/embed/IqwIOlhfCak?autoplay=1`}
               ></iframe>
             </div>
