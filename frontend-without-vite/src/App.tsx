@@ -14,6 +14,9 @@ import Profile from './pages/Profile';
 import { AdminHome } from './pages/AdminHome';
 import AdminProtectedRoute from './components/AdminProtectedRoute';
 import PageNotFound from './pages/PageNotFound';
+import AuthRoute from './components/AuthRoutes';
+import UserProtectedRoute from './components/UserRoutes';
+import NotLoggedInedPage from './pages/NotLoggedInedPage';
 
 function App() {
   return (
@@ -35,18 +38,23 @@ function App() {
         <Navbar />
         <div className="flex min-h-screen justify-center bg-[#212B37] align-baseline">
           <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/moviedetail/:id" element={<Detail />} />
             <Route path="/" element={<Home />} />
-            <Route path="/upcoming" element={<Upcoming />} />
-            <Route path="/trending" element={<Trending />} />
             <Route path="/logout" element={<Logout />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/notlogin" element={<NotLoggedInedPage />} />
+            <Route element={<UserProtectedRoute />}>
+              <Route path="/moviedetail/:id" element={<Detail />} />
+
+              <Route path="/upcoming" element={<Upcoming />} />
+              <Route path="/trending" element={<Trending />} />
+              <Route path="/profile" element={<Profile />} />
+            </Route>
             <Route path="/landing" element={<PageNotFound />} />
+            <Route element={<AuthRoute />}>
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
+            </Route>
             <Route element={<AdminProtectedRoute />}>
               <Route path="/adminhome" element={<AdminHome />} />
-              {/* <Route path="/edit/:movieId" element={< />} /> */}
             </Route>
           </Routes>
         </div>
